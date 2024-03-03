@@ -34,3 +34,6 @@ ImageButton.Image = "http://www.roblox.com/asset/?id=16599489351"
 
 -- Connect button click event to the function
 ImageButton.MouseButton1Click:Connect(onButtonClick)
+
+-- Ensure that the GUI stays visible after the player dies
+ScreenGui.Enabled = true
