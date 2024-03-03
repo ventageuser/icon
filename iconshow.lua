@@ -1,50 +1,73 @@
--- Set the keytoclick value to "V"
-getgenv().keytoclick = "V"
+-- Function to create the GUI
+local function createGUI()
+    -- Create the GUI elements if they don't exist
+    local ScreenGui = game.Players.LocalPlayer:FindFirstChild("PlayerGui")
+    if not ScreenGui then
+        ScreenGui = Instance.new("ScreenGui")
+        ScreenGui.Parent = game.Players.LocalPlayer
+    end
+    
+    local Frame = ScreenGui:FindFirstChild("Frame")
+    if not Frame then
+        Frame = Instance.new("Frame")
+        Frame.Name = "Frame"
+        Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Frame.BackgroundTransparency = 1.000
+        Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Frame.BorderSizePixel = 0
+        Frame.Size = UDim2.new(0, 100, 0, 100)
+        Frame.Parent = ScreenGui
+    end
+    
+    local ImageButton = Frame:FindFirstChild("ImageButton")
+    if not ImageButton then
+        ImageButton = Instance.new("ImageButton")
+        ImageButton.Name = "ImageButton"
+        ImageButton.Parent = Frame
+        ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ImageButton.BorderSizePixel = 0
+        ImageButton.Position = UDim2.new(0.579999983, 0, 0.680000007, 0)
+        ImageButton.Size = UDim2.new(0, 39, 0, 39)
+        ImageButton.Image = "http://www.roblox.com/asset/?id=16599489351"
+    end
 
--- Get the VirtualInputManager service
-local vim = game:GetService("VirtualInputManager")
-
--- Function to handle button click
-local function onButtonClick()
-    -- Send the key event for V directly
-    vim:SendKeyEvent(true, Enum.KeyCode.V, false, game)
-end
-
--- Create ScreenGui, Frame, and ImageButton
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-local Frame = Instance.new("Frame")
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Frame.BackgroundTransparency = 1.000
-Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Frame.BorderSizePixel = 0
-Frame.Size = UDim2.new(0, 100, 0, 100)
-
-local ImageButton = Instance.new("ImageButton")
-ImageButton.Parent = Frame
-ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ImageButton.BorderSizePixel = 0
-ImageButton.Position = UDim2.new(0.579999983, 0, 0.680000007, 0)
-ImageButton.Size = UDim2.new(0, 39, 0, 39)
-ImageButton.Image = "http://www.roblox.com/asset/?id=16599489351"
-
--- Connect button click event to the function
-ImageButton.MouseButton1Click:Connect(onButtonClick)
-
--- Function to handle player character added
-local function onCharacterAdded(character)
-    -- Ensure the GUI stays visible when the character dies
-    character:WaitForChild("Humanoid").Died:Connect(function()
-        ScreenGui.Enabled = true
+    -- Connect clicking event to the ImageButton
+    ImageButton.MouseButton1Click:Connect(function()
+        clickV()
     end)
 end
 
--- Handle player character added event
-game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
+-- Function to load external scripts with error handling
+local function loadScript(url, callback)
+    local success, script = pcall(game:GetService("HttpService").GetAsync, game:GetService("HttpService"), url)
+    if success then
+        local loadedScript = loadstring(script)
+        if loadedScript then
+            local success, errorMsg = pcall(loadedScript)
+            if not success then
+                warn("Error executing script: " .. errorMsg)
+            end
+        else
+            warn("Error loading script: " .. url)
+        end
+        -- Execute the callback function if provided
+        if callback then
+            callback(success, script)
+        end
+    else
+        warn("Error fetching script from URL: " .. url)
+    end
+end
 
--- Hide the GUI initially
-ScreenGui.Enabled = true
+-- Set the key to click
+getgenv().keytoclick = "V"
+
+-- Function to click V key
+local function clickV()
+    local vim = game:GetService("VirtualInputManager")
+    vim:SendKeyEvent(true, getgenv().keytoclick, false, game)
+end
+
+-- Create the GUI
+createGUI()
