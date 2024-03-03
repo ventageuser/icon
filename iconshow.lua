@@ -37,19 +37,10 @@ local function createGUI()
     -- Connect button click event to the function
     ImageButton.MouseButton1Click:Connect(onButtonClick)
 
-    -- Function to handle player character added
-    local function onCharacterAdded(character)
-        -- Ensure the GUI stays visible when the character dies
-        character:WaitForChild("Humanoid").Died:Connect(function()
-            ScreenGui.Enabled = true
-        end)
-    end
-
-    -- Handle player character added event
-    game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
-
-    -- Hide the GUI initially
-    ScreenGui.Enabled = false
+    -- Ensure only the "V" key is clicked
+    ImageButton.MouseButton1Click:Connect(function()
+        vim:SendKeyEvent(true, Enum.KeyCode.V, false, game)
+    end)
 end
 
 -- Function to check if the GUI exists
