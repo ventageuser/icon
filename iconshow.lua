@@ -1,75 +1,64 @@
--- Function to create the GUI
-local function createGUI()
-    -- Create the GUI elements if they don't exist
-    local ScreenGui = game.Players.LocalPlayer:FindFirstChild("PlayerGui")
-    if not ScreenGui then
-        ScreenGui = Instance.new("ScreenGui")
-        ScreenGui.Parent = game.Players.LocalPlayer
-    end
-    
-    local Frame = ScreenGui:FindFirstChild("Frame")
-    if not Frame then
-        Frame = Instance.new("Frame")
-        Frame.Name = "Frame"
-        Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        Frame.BackgroundTransparency = 1.000
-        Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        Frame.BorderSizePixel = 0
-        Frame.Size = UDim2.new(0, 100, 0, 100)
-        Frame.Parent = ScreenGui
-    end
-    
-    local ImageButton = Frame:FindFirstChild("ImageButton")
-    if not ImageButton then
-        ImageButton = Instance.new("ImageButton")
-        ImageButton.Name = "ImageButton"
-        ImageButton.Parent = Frame
-        ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        ImageButton.BorderSizePixel = 0
-        ImageButton.Position = UDim2.new(0.579999983, 0, 0.680000007, 0)
-        ImageButton.Size = UDim2.new(0, 39, 0, 39)
-        ImageButton.Image = "http://www.roblox.com/asset/?id=16599489351"
-    end
+local function check_and_click()
+    local keytoclick = getgenv().keytoclick or "V" -- Default key is "V"
 
-    -- Connect clicking event to the ImageButton
-    ImageButton.MouseButton1Click:Connect(function()
-        clickV()
-    end)
-end
+    while true do
+        -- Check if the object exists
+        local object_exists = locate_object()
 
--- Function to load external scripts with error handling
-local function loadScript(url, callback)
-    local success, script = pcall(game:GetService("HttpService").GetAsync, game:GetService("HttpService"), url)
-    if success then
-        local loadedScript = loadstring(script)
-        if loadedScript then
-            local success, errorMsg = pcall(loadedScript)
-            if not success then
-                warn("Error executing script: " .. errorMsg)
-            end
+        if not object_exists then
+            -- Recreate the object
+            print("Object not found. Recreating...")
+            recreate_object()
         else
-            warn("Error loading script: " .. url)
+            -- Click the "V" key
+            press_key_v(keytoclick)
+            print("Clicked '" .. keytoclick .. "'")
         end
-        -- Execute the callback function if provided
-        if callback then
-            callback(success, script)
-        end
-    else
-        warn("Error fetching script from URL: " .. url)
+
+        -- Add a short delay to avoid high CPU usage
+        wait(1)
     end
 end
 
--- Set the key to click
-getgenv().keytoclick = "V"
-
--- Function to click V key
-local function clickV()
-    local vim = game:GetService("VirtualInputManager")
-    vim:SendKeyEvent(true, getgenv().keytoclick, false, game)
+function locate_object()
+    -- Function to locate the object
+    -- Replace this with your logic to locate the object
+    return true -- Replace with actual detection logic
 end
 
--- Create the GUI
-createGUI()
+function recreate_object()
+    -- Function to recreate the object
+    -- Replace this with your logic to recreate the object
+    print("Recreating object...")
+    -- Code to recreate the object goes here
+end
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/therealzeek/Ctool/main/README.lua", true))()
+function press_key_v(key)
+    -- Function to press the specified key
+    print("Pressing '" .. key .. "'")
+    -- Replace this with your logic to press the specified key
+end
+
+local ScreenGui = Instance.new("ScreenGui")
+local ImageLabel = Instance.new("ImageLabel")
+
+-- Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+ImageLabel.Parent = ScreenGui
+ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ImageLabel.BackgroundTransparency = 1
+ImageLabel.Position = UDim2.new(0.5, -50, 0.5, -50)
+ImageLabel.Size = UDim2.new(0, 100, 0, 100)
+ImageLabel.Image = "http://www.roblox.com/asset/?id=16599489351"  -- Replace with your image ID
+
+-- Wait for 5 seconds
+wait(5)
+
+-- Execute script
+check_and_click()
+
+-- Remove the loader
+ScreenGui:Destroy()
