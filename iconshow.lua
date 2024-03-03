@@ -1,10 +1,13 @@
--- Add your keytoclick value
+-- Set the keytoclick value to "V"
 getgenv().keytoclick = "V"
+
+-- Get the VirtualInputManager service
 local vim = game:GetService("VirtualInputManager")
 
 -- Function to handle button click
 local function onButtonClick()
-    vim:SendKeyEvent(true, getgenv().keytoclick, false, game)
+    -- Send the key event for V directly
+    vim:SendKeyEvent(true, Enum.KeyCode.V, false, game)
 end
 
 -- Create ScreenGui, Frame, and ImageButton
