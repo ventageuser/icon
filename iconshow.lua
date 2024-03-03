@@ -10,44 +10,34 @@ local function onButtonClick()
     vim:SendKeyEvent(true, Enum.KeyCode.V, false, game)
 end
 
--- Function to create the GUI
-local function createGUI()
-    -- Check if the player's character exists
-    local character = game.Players.LocalPlayer.Character
-    if not character then
-        return
-    end
+-- Create ScreenGui, Frame, and ImageButton
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.IgnoreGuiInset = true
+ScreenGui.DisplayOrder = 999
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-    -- Create ScreenGui, Frame, and ImageButton
-    local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Parent = character
+local Frame = Instance.new("Frame")
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BackgroundTransparency = 1
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.5, -50, 0.5, -50) -- Center the Frame
+Frame.Size = UDim2.new(0, 100, 0, 100)
 
-    local Frame = Instance.new("Frame")
-    Frame.Parent = ScreenGui
-    Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Frame.BackgroundTransparency = 1
-    Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Frame.BorderSizePixel = 0
-    Frame.Size = UDim2.new(0, 100, 0, 100)
+local ImageButton = Instance.new("ImageButton")
+ImageButton.Parent = Frame
+ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ImageButton.BorderSizePixel = 0
+ImageButton.Size = UDim2.new(1, 0, 1, 0)
+ImageButton.Image = "http://www.roblox.com/asset/?id=16599489351"
 
-    local ImageButton = Instance.new("ImageButton")
-    ImageButton.Parent = Frame
-    ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    ImageButton.BorderSizePixel = 0
-    ImageButton.Position = UDim2.new(0.58, 0, 0.68, 0)
-    ImageButton.Size = UDim2.new(0, 39, 0, 39)
-    ImageButton.Image = "http://www.roblox.com/asset/?id=16599489351"
+-- Connect button click event to the function
+ImageButton.MouseButton1Click:Connect(onButtonClick)
 
-    -- Connect button click event to the function
-    ImageButton.MouseButton1Click:Connect(onButtonClick)
-end
-
--- Create the GUI initially
-createGUI()
-
--- Check if the GUI should exist periodically
-while true do
-    wait(1)
-    createGUI()
-end
+-- Keep GUI visible
+game:GetService("RunService").RenderStepped:Connect(function()
+    ScreenGui.Enabled = true
+end)
