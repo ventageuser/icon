@@ -47,4 +47,4 @@ end
 game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
 -- Hide the GUI initially
-ScreenGui.Enabled = true
+ScreenGui.Enabled = false
