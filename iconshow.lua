@@ -7,7 +7,7 @@ local vim = game:GetService("VirtualInputManager")
 -- Function to handle button click
 local function onButtonClick()
     -- Send the key event for the keytoclick value directly
-    vim:SendKeyEvent(true, Enum.KeyCode[keytoclick], false, game)
+    vim:SendKeyEvent(true, Enum.KeyCode.V, true, game)
 end
 
 -- Function to create the GUI
