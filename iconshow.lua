@@ -14,6 +14,7 @@ end
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.Enabled = true -- Ensure the ScreenGui is always enabled
 
 local Frame = Instance.new("Frame")
 Frame.Parent = ScreenGui
