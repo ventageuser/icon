@@ -1,64 +1,45 @@
-local function check_and_click()
-    local keytoclick = getgenv().keytoclick or "V" -- Default key is "V"
+local UserInputService = game:GetService("UserInputService")
 
-    while true do
-        -- Check if the object exists
-        local object_exists = locate_object()
-
-        if not object_exists then
-            -- Recreate the object
-            print("Object not found. Recreating...")
-            recreate_object()
-        else
-            -- Click the "V" key
-            press_key_v(keytoclick)
-            print("Clicked '" .. keytoclick .. "'")
-        end
-
-        -- Add a short delay to avoid high CPU usage
-        wait(1)
+-- Function to handle the key press event
+local function onKeyPress(input)
+    if input.KeyCode == Enum.KeyCode.V then
+        -- Call the function to perform the desired action directly
+        performAction()
     end
 end
 
-function locate_object()
-    -- Function to locate the object
-    -- Replace this with your logic to locate the object
-    return true -- Replace with actual detection logic
+-- Connect the key press event to the function
+UserInputService.InputBegan:Connect(onKeyPress)
+
+-- Function to perform the desired action
+local function performAction()
+    -- Add your desired action here
+    print("Key 'V' pressed or image button clicked!")
 end
 
-function recreate_object()
-    -- Function to recreate the object
-    -- Replace this with your logic to recreate the object
-    print("Recreating object...")
-    -- Code to recreate the object goes here
-end
-
-function press_key_v(key)
-    -- Function to press the specified key
-    print("Pressing '" .. key .. "'")
-    -- Replace this with your logic to press the specified key
-end
-
+-- Rest of your code
 local ScreenGui = Instance.new("ScreenGui")
-local ImageLabel = Instance.new("ImageLabel")
+local Frame = Instance.new("Frame")
+local ImageButton = Instance.new("ImageButton")
 
--- Properties:
-
+--Properties:
 ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-ImageLabel.Parent = ScreenGui
-ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ImageLabel.BackgroundTransparency = 1
-ImageLabel.Position = UDim2.new(0.5, -50, 0.5, -50)
-ImageLabel.Size = UDim2.new(0, 100, 0, 100)
-ImageLabel.Image = "http://www.roblox.com/asset/?id=16599489351"  -- Replace with your image ID
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BackgroundTransparency = 1.000
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Size = UDim2.new(0, 100, 0, 100)
 
--- Wait for 5 seconds
-wait(5)
+ImageButton.Parent = Frame
+ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ImageButton.BorderSizePixel = 0
+ImageButton.Position = UDim2.new(0.579999983, 0, 0.680000007, 0)
+ImageButton.Size = UDim2.new(0, 39, 0, 39)
+ImageButton.Image = "http://www.roblox.com/asset/?id=16599489351"
 
--- Execute script
-check_and_click()
-
--- Remove the loader
-ScreenGui:Destroy()
+-- Connect the ImageButton click event to perform the action
+ImageButton.MouseButton1Click:Connect(performAction)
