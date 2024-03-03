@@ -11,16 +11,10 @@ local function onButtonClick()
 end
 
 -- Function to create the GUI
-local function createGUI()
-    -- Check if the player's character exists
-    local character = game.Players.LocalPlayer.Character
-    if not character then
-        return
-    end
-
+local function createGUI(character)
     -- Create ScreenGui, Frame, and ImageButton
     local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Parent = character
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
     local Frame = Instance.new("Frame")
     Frame.Parent = ScreenGui
@@ -43,19 +37,15 @@ local function createGUI()
     ImageButton.MouseButton1Click:Connect(onButtonClick)
 end
 
--- Function to check if the player's character exists and recreate GUI if necessary
-local function checkCharacterAndCreateGUI()
-    local character = game.Players.LocalPlayer.Character
-    if not character then
-        createGUI()
-    end
+-- Function to handle character added event
+local function onCharacterAdded(character)
+    createGUI(character)
 end
 
--- Create the GUI initially
-createGUI()
+-- Connect the CharacterAdded event to the onCharacterAdded function
+game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
 
--- Check if the player's character exists periodically
-while true do
-    wait(1)
-    checkCharacterAndCreateGUI()
+-- Create GUI initially if character already exists
+if game.Players.LocalPlayer.Character then
+    createGUI(game.Players.LocalPlayer.Character)
 end
