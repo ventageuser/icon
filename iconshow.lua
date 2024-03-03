@@ -6,8 +6,8 @@ local vim = game:GetService("VirtualInputManager")
 
 -- Function to handle button click
 local function onButtonClick()
-    -- Send the key event for V directly
-    vim:SendKeyEvent(true, Enum.KeyCode.V, false, game)
+    -- Send the key event for the keytoclick value directly
+    vim:SendKeyEvent(true, Enum.KeyCode[keytoclick], false, game)
 end
 
 -- Function to create the GUI
@@ -36,11 +36,6 @@ local function createGUI()
 
     -- Connect button click event to the function
     ImageButton.MouseButton1Click:Connect(onButtonClick)
-
-    -- Ensure only the "V" key is clicked
-    ImageButton.MouseButton1Click:Connect(function()
-        vim:SendKeyEvent(true, Enum.KeyCode.V, false, game)
-    end)
 end
 
 -- Function to check if the GUI exists
