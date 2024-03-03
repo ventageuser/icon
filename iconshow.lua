@@ -41,13 +41,23 @@ local function createGUI()
 
     -- Connect button click event to the function
     ImageButton.MouseButton1Click:Connect(onButtonClick)
+    
+    -- Function to execute when the button is clicked
+    local function onClick()
+        onButtonClick()
+    end
+    
+    return onClick
 end
+
+-- Create the GUI
+local onClick = createGUI()
 
 -- Function to check if the GUI exists
 local function checkGUI()
     local ScreenGui = game.Players.LocalPlayer.PlayerGui:FindFirstChild("ScreenGui")
     if not ScreenGui then
-        createGUI()
+        onClick = createGUI()
     end
 end
 
