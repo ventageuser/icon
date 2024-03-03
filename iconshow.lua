@@ -12,10 +12,15 @@ end
 
 -- Function to create the GUI
 local function createGUI()
+    -- Check if the player's character exists
+    local character = game.Players.LocalPlayer.Character
+    if not character then
+        return
+    end
+
     -- Create ScreenGui, Frame, and ImageButton
     local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ScreenGui.Parent = character
 
     local Frame = Instance.new("Frame")
     Frame.Parent = ScreenGui
@@ -38,16 +43,11 @@ local function createGUI()
     ImageButton.MouseButton1Click:Connect(onButtonClick)
 end
 
--- Function to check if the player's character exists
-local function checkCharacter()
-    if game.Players.LocalPlayer.Character == nil then
-        -- Character doesn't exist, recreate GUI
-        createGUI()
-    end
-end
+-- Create the GUI initially
+createGUI()
 
--- Check character state periodically
+-- Check if the GUI should exist periodically
 while true do
-    checkCharacter()
-    wait(1) -- Check every second
+    wait(1)
+    createGUI()
 end
