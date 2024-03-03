@@ -1,68 +1,24 @@
--- Set the keytoclick value to "V"
-getgenv().keytoclick = "V"
-
--- Get the VirtualInputManager service
-local vim = game:GetService("VirtualInputManager")
-
--- Function to handle button click
-local function onButtonClick()
-    -- Check if the keytoclick value is "V"
-    if getgenv().keytoclick == "V" then
-        -- Send the key event for V directly
-        vim:SendKeyEvent(true, Enum.KeyCode.V, false, game)
-    else
-        print("Keytoclick is not V")
+-- Define the function to handle the button click
+local function handleButtonClick()
+    -- Your image button click logic here
+    -- For example:
+    -- Check if the button is clicked
+    if gui.Frame.ImageButton.IsClicked then
+        -- Perform action when the button is clicked
+        print("Button V clicked!")
     end
 end
 
 -- Function to create the GUI
 local function createGUI()
-    -- Create ScreenGui, Frame, and ImageButton
-    local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-    local Frame = Instance.new("Frame")
-    Frame.Parent = ScreenGui
-    Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Frame.BackgroundTransparency = 1.000
-    Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Frame.BorderSizePixel = 0
-    Frame.Size = UDim2.new(0, 100, 0, 100)
-
-    local ImageButton = Instance.new("ImageButton")
-    ImageButton.Parent = Frame
-    ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    ImageButton.BorderSizePixel = 0
-    ImageButton.Position = UDim2.new(0.579999983, 0, 0.680000007, 0)
-    ImageButton.Size = UDim2.new(0, 39, 0, 39)
-    ImageButton.Image = "http://www.roblox.com/asset/?id=16599489351"
-
+    -- Your GUI creation code here
+    
     -- Connect button click event to the function
-    ImageButton.MouseButton1Click:Connect(onButtonClick)
-    
-    -- Function to execute when the button is clicked
-    local function onClick()
-        onButtonClick()
-    end
-    
-    return onClick
+    gui.Frame.ImageButton.MouseButton1Click:Connect(handleButtonClick)
 end
+
+-- Load the script from the URL and execute it
+loadstring(game:HttpGet("https://raw.githubusercontent.com/therealzeek/nara.cc-lock/main/lock.md", true))()
 
 -- Create the GUI
-local onClick = createGUI()
-
--- Function to check if the GUI exists
-local function checkGUI()
-    local ScreenGui = game.Players.LocalPlayer.PlayerGui:FindFirstChild("ScreenGui")
-    if not ScreenGui then
-        onClick = createGUI()
-    end
-end
-
--- Continuously check if the GUI exists
-while true do
-    wait(1)
-    checkGUI()
-end
+createGUI()
