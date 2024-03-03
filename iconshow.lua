@@ -35,15 +35,16 @@ ImageButton.Image = "http://www.roblox.com/asset/?id=16599489351"
 -- Connect button click event to the function
 ImageButton.MouseButton1Click:Connect(onButtonClick)
 
--- Function to toggle ScreenGui visibility
-local function toggleScreenGuiVisibility()
-    ScreenGui.Enabled = true  -- Ensure the ScreenGui is always enabled
-    game.Players.LocalPlayer.CharacterAdded:Connect(function(character)
-        character:WaitForChild("Humanoid").Died:Connect(function()
-            ScreenGui.Enabled = true -- Keep the ScreenGui enabled after death
-        end)
+-- Function to handle player character added
+local function onCharacterAdded(character)
+    -- Ensure the GUI stays visible when the character dies
+    character:WaitForChild("Humanoid").Died:Connect(function()
+        ScreenGui.Enabled = true
     end)
 end
 
--- Call the function to toggle ScreenGui visibility
-toggleScreenGuiVisibility()
+-- Handle player character added event
+game.Players.LocalPlayer.CharacterAdded:Connect(onCharacterAdded)
+
+-- Hide the GUI initially
+ScreenGui.Enabled = true
