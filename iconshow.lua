@@ -1,33 +1,58 @@
-local keytoclick = getgenv().keytoclick or "V" -- Default key is "V"
-local vim = game:GetService("VirtualInputManager")
+-- Set the default value for keytoclick
+getgenv().keytoclick = "V"
 
-local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local ImageButton = Instance.new("ImageButton")
+-- Function to handle button click
+local function onButtonClick()
+    vim:SendKeyEvent(true, getgenv().keytoclick, false, game)
+end
 
--- Properties:
+-- Function to create or recreate the GUI
+local function createGUI()
+    -- Check if the ScreenGui exists, if not create it
+    local ScreenGui = game.Players.LocalPlayer:FindFirstChild("PlayerGui")
+    if not ScreenGui then
+        ScreenGui = Instance.new("ScreenGui")
+        ScreenGui.Parent = game.Players.LocalPlayer
+    end
 
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    -- Check if the Frame exists, if not create it
+    local Frame = ScreenGui:FindFirstChild("MyFrame")
+    if not Frame then
+        Frame = Instance.new("Frame")
+        Frame.Name = "MyFrame"
+        Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Frame.BackgroundTransparency = 1.000
+        Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Frame.BorderSizePixel = 0
+        Frame.Size = UDim2.new(0, 100, 0, 100)
+        Frame.Parent = ScreenGui
+    end
 
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Frame.BackgroundTransparency = 1.000
-Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Frame.BorderSizePixel = 0
-Frame.Size = UDim2.new(0, 100, 0, 100)
+    -- Check if the ImageButton exists, if not create it
+    local ImageButton = Frame:FindFirstChild("MyImageButton")
+    if not ImageButton then
+        ImageButton = Instance.new("ImageButton")
+        ImageButton.Name = "MyImageButton"
+        ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ImageButton.BorderSizePixel = 0
+        ImageButton.Position = UDim2.new(0.579999983, 0, 0.680000007, 0)
+        ImageButton.Size = UDim2.new(0, 39, 0, 39)
+        ImageButton.Image = "http://www.roblox.com/asset/?id=16599489351"
+        ImageButton.Parent = Frame
+    end
 
-ImageButton.Parent = Frame
-ImageButton.Visible = true -- Ensure the button is visible
-ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ImageButton.BorderSizePixel = 0
-ImageButton.Position = UDim2.new(0.5, -19.5, 0.5, -19.5) -- Center the button
-ImageButton.Size = UDim2.new(0, 39, 0, 39)
-ImageButton.Image = "http://www.roblox.com/asset/?id=16599489351" -- Make sure the image URL is correct
+    -- Connect button click event to the function
+    ImageButton.MouseButton1Click:Connect(onButtonClick)
+end
 
--- Optional: Connect a function to the MouseButton1Click event to perform an action when the button is clicked
-ImageButton.MouseButton1Click:Connect(function()
-    print("ImageButton clicked!")
-    vim:SendKeyEvent(true, keytoclick, false, game)
-end)
+-- Call createGUI function initially
+createGUI()
+
+-- Loop to constantly check if the GUI exists, and recreate it if needed
+while true do
+    wait(1) -- Adjust the interval as needed
+    if not game.Players.LocalPlayer:FindFirstChild("PlayerGui") then
+        createGUI()
+    end
+end
