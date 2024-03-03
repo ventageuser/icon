@@ -18,6 +18,7 @@ Frame.BorderSizePixel = 0
 Frame.Size = UDim2.new(0, 100, 0, 100)
 
 ImageButton.Parent = Frame
+ImageButton.Visible = true -- Ensure the button is visible
 ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
 ImageButton.BorderSizePixel = 0
